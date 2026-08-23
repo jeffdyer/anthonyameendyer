@@ -38,12 +38,13 @@
         min-height: 100vh;
         min-height: 100dvh; /* accounts for mobile browser chrome */
         padding: 2.5rem 1.25rem;
-        /* Surf foam tiles over the gradient, behind everything. The card sits
-           on top of it, so the texture reads only around the photo. */
+        /* An abstract shore break: a band of denser foam thinning to nothing
+           above and below, repeating horizontally only. It sits behind the
+           card, so the texture reads around the photo, never over it. */
         background-image: url('foam.png'),
                           linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
-        background-repeat: repeat, no-repeat;
-        background-position: center, center;
+        background-repeat: repeat-x, no-repeat;
+        background-position: center 72%, center;
         color: var(--ink);
         font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
         -webkit-font-smoothing: antialiased;
