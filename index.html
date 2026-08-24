@@ -265,8 +265,7 @@
         async function loop() {
           /* He always faces left, as drawn - he never turns round. So the run
              out to the right is travelled backwards, and the run home is
-             forwards. The backflip caps every second or third backward run. */
-          var backRuns = 0, target = 2 + Math.round(Math.random());
+             forwards. Every backward run carries a flip. */
 
           async function dash(from, to, bob) {
             var span = to - from;
@@ -296,17 +295,11 @@
             if (!(R >= 24)) { await wait(1200); continue; }  /* no room to run */
             var bob = m.w * 0.07;
 
-            /* Backwards, out into the gutter. On a flip run the outward leg is
-               broken at the first third, he turns over, then carries on. */
-            if (++backRuns >= target) {
-              backRuns = 0;
-              target = 2 + Math.round(Math.random());
-              await dash(0, R / 3, bob);
-              await backflip(R / 3);
-              await dash(R / 3, R, bob);
-            } else {
-              await dash(0, R, bob);
-            }
+            /* Backwards, out into the gutter. The outward leg breaks at the
+               first third, he turns over, then carries on. */
+            await dash(0, R / 3, bob);
+            await backflip(R / 3);
+            await dash(R / 3, R, bob);
             await wait(rnd(600, 1500));
             if (!running) break;
 
