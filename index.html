@@ -115,7 +115,7 @@
         bottom: 0;
         left: 100%;
         margin-left: clamp(0.5rem, 1.6vw, 1.75rem);
-        width: clamp(34px, 4.5vw, 72px);
+        width: clamp(23px, 3vw, 48px);
         height: auto;
         opacity: 0.92;
         pointer-events: none;
@@ -209,5 +209,107 @@
       <p class="memory">In loving memory</p>
     </footer>
 
+
+    <script>
+      /* The crab scurries out into the gutter and back. Every third or fourth
+         lap - picked fresh each time - it throws in a backflip. Script-driven
+         because "a random lap" is not something CSS keyframes can say. */
+      (function () {
+        var crab = document.querySelector('.crab');
+        var card = document.querySelector('.card');
+        if (!crab || !card || !crab.animate) return;
+
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var running = false;
+
+        /* Untransformed geometry. Note an SVG element has no offsetLeft or
+           offsetWidth - those are HTMLElement properties - and a bounding rect
+           would include the transform we are mid-way through applying. So the
+           resting box is derived from computed style against the card. */
+        function metrics() {
+          var cr = card.getBoundingClientRect(), cs = getComputedStyle(crab);
+          var w = parseFloat(cs.width) || 0, h = parseFloat(cs.height) || 0;
+          var left = cs.left !== 'auto'
+            ? cr.left + (parseFloat(cs.left) || 0) + (parseFloat(cs.marginLeft) || 0)
+            : cr.right - (parseFloat(cs.right) || 0) - w;
+          return { left: left, w: w, h: h };
+        }
+        function gutter(m) {
+          return Math.max(0, window.innerWidth - m.left - m.w - 12);
+        }
+        function rnd(a, b) { return a + Math.random() * (b - a); }
+        function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+        function tf(x, y, dir, rot) {
+          return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)'
+               + ' rotate(' + rot.toFixed(1) + 'deg) scaleX(' + dir + ')';
+        }
+        function play(frames, ms, easing) {
+          return crab.animate(frames, {
+            duration: ms, easing: easing || 'ease-in-out', fill: 'forwards'
+          }).finished.catch(function () {});
+        }
+        /* Turning has to be instant - tweening scaleX would squash it through zero. */
+        function face(x, dir) {
+          return play([{ transform: tf(x, 0, dir, 0) }, { transform: tf(x, 0, dir, 0) }], 1);
+        }
+
+        async function loop() {
+          var dir = 1;                              /* 1 = facing left, as drawn */
+          var laps = 0, target = 3 + Math.round(Math.random());
+
+          while (running) {
+            if (document.hidden) { await wait(600); continue; }
+
+            var m = metrics(), R = gutter(m);
+            if (!(R >= 24)) { await wait(1200); continue; }  /* no room to run */
+            var bob = m.w * 0.07;
+
+            for (var leg = 0; leg < 2 && running; leg++) {
+              var out = leg === 0;
+              var from = out ? 0 : R, to = out ? R : 0, d = out ? -1 : 1;
+              if (d !== dir) { await face(from, d); dir = d; }
+              var span = to - from;
+              await play([
+                { transform: tf(from, 0, d, 0) },
+                { transform: tf(from + span * 0.25, -bob, d, 0) },
+                { transform: tf(from + span * 0.5, 0, d, 0) },
+                { transform: tf(from + span * 0.75, -bob, d, 0) },
+                { transform: tf(to, 0, d, 0) }
+              ], Math.min(2200, Math.max(800, R * 6.4)));
+              await wait(rnd(250, 1000));
+            }
+
+            if (++laps >= target) {
+              laps = 0;
+              target = 3 + Math.round(Math.random());
+              var turn = 360 * dir;                 /* backwards, over the shell */
+              var hop = metrics().h * 0.3;   /* just a slight bump off the sand */
+              await play([
+                { transform: tf(0, 0, dir, 0) },
+                { transform: tf(0, -hop, dir, turn / 2), offset: 0.5 },
+                { transform: tf(0, 0, dir, turn) }
+              ], 1440, 'cubic-bezier(.34,.01,.53,1)');
+              await face(0, dir);                   /* 360 deg back to a clean base */
+              await wait(rnd(600, 1600));
+            }
+          }
+        }
+
+        function start() {
+          if (reduce.matches || running) return;
+          running = true;
+          crab.style.animation = 'none';  /* release the entry animation's hold */
+          loop();
+        }
+        function stop() {
+          running = false;
+          crab.getAnimations().forEach(function (a) { a.cancel(); });
+          crab.style.transform = '';
+        }
+
+        reduce.addEventListener('change', function () { reduce.matches ? stop() : start(); });
+        setTimeout(start, 2100);          /* let the entry rise settle first */
+      })();
+    </script>
   </body>
 </html>
