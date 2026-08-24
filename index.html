@@ -124,6 +124,29 @@
         animation: rise 1.4s ease-out 0.6s both;
       }
 
+      /* Legs and claws pivot where they meet the body. The scuttle only runs
+         while he is actually moving; alternating legs are offset half a cycle
+         so the gait reads as a gait and not a shiver. */
+      .crab .leg,
+      .crab .claw { transform-box: view-box; }
+
+      .crab.walking .leg { animation: scuttle 0.30s ease-in-out infinite alternate; }
+      .crab.walking .claw { animation: brandish 0.60s ease-in-out infinite alternate; }
+      .crab.walking .l1l,
+      .crab.walking .l3l,
+      .crab.walking .l2r { animation-delay: -0.15s; }
+      .crab.walking .cr { animation-delay: -0.30s; }
+
+      @keyframes scuttle {
+        from { transform: rotate(-10deg); }
+        to   { transform: rotate(10deg); }
+      }
+
+      @keyframes brandish {
+        from { transform: rotate(-6deg); }
+        to   { transform: rotate(6deg); }
+      }
+
       /* Below this width the card fills the page and there is no gutter to
          stand in, so the crab steps down under its bottom-right corner. */
       @media (max-width: 620px) {
@@ -167,7 +190,7 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .card, footer, .crab { animation: none; }
+        .card, footer, .crab, .crab .leg, .crab .claw { animation: none; }
       }
     </style>
   </head>
@@ -179,28 +202,17 @@
       <hr class="rule">
       <p class="epitaph">A life is measured in the love shared, the laughter remembered, and the lives made better along the way.</p>
       <svg class="crab" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
-        <g fill="none" stroke="#996858" stroke-linecap="round">
-        <g stroke-width="2.8">
-        <path d="M35 33C30 36 26 38 20 39"/>
-        <path d="M38.5 34.5C35 39 31.5 42.5 27 46"/>
-        <path d="M42 35C42.5 39.5 42.5 43 42 47"/>
-        </g>
-        <g stroke-width="3">
-        <path d="M32 29C25 30 20 31 16 32"/>
-        <path d="M31 22C25 20 20 19 16 19"/>
-        </g>
-        <g stroke-width="2.2">
-        <path d="M32 25L24 16"/><path d="M34 23L29 13"/>
-        </g>
-        </g>
-        <g fill="#b48270" stroke="#b48270" stroke-width="0.9" stroke-linejoin="round"><path d="M11.57 27.60 L4.45 26.09 L3.95 27.51 L10.43 30.80 Z"/><path d="M10.32 32.24 L4.30 35.91 L4.90 37.29 L11.68 35.36 Z"/><ellipse cx="14" cy="31.5" rx="5.3" ry="4.3" transform="rotate(-12 14 31.5)"/></g>
-        <g fill="#b48270" stroke="#b48270" stroke-width="0.8" stroke-linejoin="round"><path d="M12.56 16.08 L7.87 14.46 L7.33 15.54 L11.44 18.32 Z"/><path d="M11.43 19.69 L7.63 22.37 L8.17 23.43 L12.57 21.91 Z"/><ellipse cx="14.5" cy="19" rx="3.7" ry="3.0" transform="rotate(-10 14.5 19)"/></g>
-        <circle cx="23.2" cy="15" r="2.6" fill="#352c27"/>
-        <circle cx="28.4" cy="11.8" r="2.6" fill="#352c27"/>
-        <defs><clipPath id="crabShell"><ellipse cx="39" cy="25" rx="15" ry="12" transform="rotate(-22 39 25)"/></clipPath></defs>
-        <g fill="#e3d8c6" stroke="#9a8565" stroke-width="1.3"><ellipse cx="39" cy="25" rx="15" ry="12" transform="rotate(-22 39 25)"/></g>
-        <path d="M48.65 17.49 L48.61 17.47 L48.58 17.45 L48.54 17.43 L48.51 17.40 L48.48 17.38 L48.45 17.35 L48.42 17.32 L48.39 17.29 L48.37 17.25 L48.34 17.21 L48.32 17.17 L48.30 17.13 L48.29 17.09 L48.27 17.05 L48.26 17.00 L48.25 16.95 L48.25 16.90 L48.24 16.85 L48.24 16.80 L48.25 16.75 L48.25 16.70 L48.26 16.65 L48.28 16.60 L48.29 16.55 L48.31 16.50 L48.34 16.45 L48.36 16.40 L48.39 16.35 L48.43 16.31 L48.46 16.26 L48.51 16.22 L48.55 16.18 L48.60 16.14 L48.65 16.10 L48.70 16.07 L48.75 16.04 L48.81 16.01 L48.87 15.99 L48.94 15.97 L49.00 15.95 L49.07 15.94 L49.14 15.93 L49.21 15.93 L49.28 15.93 L49.35 15.93 L49.42 15.94 L49.49 15.96 L49.57 15.97 L49.64 16.00 L49.71 16.03 L49.78 16.06 L49.85 16.10 L49.92 16.14 L49.98 16.19 L50.05 16.24 L50.11 16.30 L50.16 16.36 L50.22 16.43 L50.27 16.50 L50.32 16.57 L50.36 16.65 L50.40 16.73 L50.43 16.82 L50.46 16.91 L50.48 17.00 L50.50 17.10 L50.51 17.19 L50.52 17.29 L50.52 17.39 L50.51 17.49 L50.50 17.60 L50.48 17.70 L50.45 17.80 L50.42 17.90 L50.38 18.00 L50.33 18.10 L50.28 18.20 L50.22 18.30 L50.15 18.39 L50.07 18.48 L49.99 18.57 L49.90 18.65 L49.81 18.73 L49.71 18.80 L49.60 18.87 L49.49 18.93 L49.38 18.98 L49.25 19.03 L49.13 19.07 L49.00 19.10 L48.86 19.13 L48.73 19.14 L48.59 19.15 L48.45 19.15 L48.30 19.14 L48.16 19.12 L48.01 19.10 L47.87 19.06 L47.72 19.01 L47.58 18.95 L47.44 18.89 L47.30 18.81 L47.16 18.72 L47.03 18.63 L46.90 18.52 L46.78 18.41 L46.66 18.28 L46.55 18.15 L46.45 18.01 L46.36 17.86 L46.27 17.70 L46.19 17.53 L46.13 17.36 L46.07 17.18 L46.02 17.00 L45.99 16.81 L45.96 16.61 L45.95 16.42 L45.95 16.21 L45.96 16.01 L45.99 15.81 L46.03 15.60 L46.08 15.39 L46.15 15.19 L46.23 14.98 L46.33 14.78 L46.44 14.59 L46.56 14.40 L46.69 14.21 L46.84 14.03 L47.01 13.86 L47.18 13.69 L47.37 13.53 L47.57 13.39 L47.79 13.26 L48.01 13.13 L48.25 13.02 L48.49 12.93 L48.74 12.85 L49.00 12.78 L49.27 12.73 L49.55 12.70 L49.83 12.68 L50.11 12.68 L50.40 12.70 L50.69 12.74 L50.98 12.79 L51.28 12.87 L51.57 12.96 L51.85 13.08 L52.14 13.21 L52.42 13.37 L52.69 13.54 L52.95 13.73 L53.21 13.95 L53.46 14.18 L53.69 14.43 L53.91 14.70 L54.11 14.98 L54.30 15.28 L54.48 15.60 L54.63 15.93 L54.77 16.28 L54.88 16.63 L54.98 17.01 L55.05 17.39 L55.10 17.78 L55.12 18.17 L55.12 18.58 L55.09 18.99 L55.04 19.40 L54.96 19.81 L54.85 20.23 L54.72 20.64 L54.56 21.04 L54.37 21.45 L54.15 21.84 L53.90 22.23 L53.63 22.60 L53.33 22.97 L53.00 23.31 L52.64 23.64 L52.27 23.95 L51.86 24.25 L51.43 24.52 L50.99 24.76 L50.52 24.98 L50.03 25.17 L49.52 25.34 L48.99 25.47 L48.45 25.57 L47.90 25.64 L47.34 25.67 L46.77 25.67 L46.19 25.63 L45.60 25.56 L45.02 25.45 L44.43 25.29 L43.85 25.10 L43.27 24.87 L42.70 24.60 L42.14 24.29 L41.59 23.94 L41.06 23.55 L40.55 23.13 L40.06 22.66 L39.59 22.16 L39.15 21.63 L38.73 21.05 L38.35 20.45 L38.00 19.81 L37.69 19.15 L37.42 18.45 L37.19 17.73 L37.00 16.99 L36.86 16.23 L36.76 15.44 L36.71 14.64 L36.71 13.83 L36.77 13.01 L36.87 12.19 L37.04 11.36 L37.25 10.53 L37.52 9.70 L37.85 8.88 L38.23 8.07 L38.67 7.28 L39.16 6.51 L39.71 5.75 L40.32 5.03 L40.98 4.33 L41.69 3.67 L42.45 3.04 L43.26 2.46 L44.11 1.92 L45.02 1.42 L45.96 0.98 L46.94 0.60 L47.96 0.27 L49.02 0.00" clip-path="url(#crabShell)" fill="none"
-        stroke="#8a7358" stroke-width="1.25" stroke-linecap="round"/>
+        <g class="leg l1l" style="transform-origin:20.0px 30.0px"><path d="M20.0 30.0Q14.0 30.0 9.0 32.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="leg l2l" style="transform-origin:21.0px 33.0px"><path d="M21.0 33.0Q16.0 36.0 11.0 39.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="leg l3l" style="transform-origin:24.0px 36.0px"><path d="M24.0 36.0Q21.0 40.0 18.0 44.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="leg l1r" style="transform-origin:44.0px 30.0px"><path d="M44.0 30.0Q50.0 30.0 55.0 32.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="leg l2r" style="transform-origin:43.0px 33.0px"><path d="M43.0 33.0Q48.0 36.0 53.0 39.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="leg l3r" style="transform-origin:40.0px 36.0px"><path d="M40.0 36.0Q43.0 40.0 46.0 44.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
+        <g class="claw cl" style="transform-origin:21.0px 25.0px"><path d="M21.0 25.0Q17.0 21.0 13.2 18.2" fill="none" stroke="#a9765f" stroke-width="3.1" stroke-linecap="round"/><path d="M3.0 10.8 L12.5 14.2 C15.8 15.4 15.8 20.6 12.5 21.8 L3.4 23.0 L7.8 17.2 Z" fill="#a9765f" stroke="#a9765f" stroke-width="1.4" stroke-linejoin="round"/></g>
+        <g class="claw cr" style="transform-origin:43.0px 25.0px"><path d="M43.0 25.0Q47.0 21.0 50.8 18.2" fill="none" stroke="#a9765f" stroke-width="3.1" stroke-linecap="round"/><path d="M61.0 10.8 L51.5 14.2 C48.2 15.4 48.2 20.6 51.5 21.8 L60.6 23.0 L56.2 17.2 Z" fill="#a9765f" stroke="#a9765f" stroke-width="1.4" stroke-linejoin="round"/></g>
+        <g fill="none" stroke="#96685a" stroke-width="1.9" stroke-linecap="round"><path d="M27.5 22L26.5 17.4"/><path d="M36.5 22L37.5 17.4"/></g>
+        <ellipse cx="32" cy="29" rx="14.5" ry="9.8" fill="#b8846f" stroke="#96685a" stroke-width="1.3"/>
+        <circle cx="26.4" cy="16" r="2.4" fill="#352c27"/><circle cx="37.6" cy="16" r="2.4" fill="#352c27"/>
       </svg>
     </main>
 
@@ -263,6 +275,7 @@
 
           async function dash(from, to, bob) {
             var span = to - from;
+            crab.classList.add('walking');
             await play([
               { transform: tf(from, 0, 1, 0) },
               { transform: tf(from + span * 0.25, -bob, 1, 0) },
@@ -270,14 +283,15 @@
               { transform: tf(from + span * 0.75, -bob, 1, 0) },
               { transform: tf(to, 0, 1, 0) }
             ], Math.min(4400, Math.max(1600, Math.abs(span) * 12.8)));
+            crab.classList.remove('walking');
           }
 
-          async function backflip(x) {
+          async function sideflip(x) {
             var hop = metrics().h * 0.3;   /* just a slight bump off the sand */
             await play([
               { transform: tf(x, 0, 1, 0) },
               { transform: tf(x, -hop, 1, 180), offset: 0.5 },
-              { transform: tf(x, 0, 1, 360) }      /* over the shell */
+              { transform: tf(x, 0, 1, 360) }      /* a cartwheel, rolling the way he is going */
             ], 1440, 'cubic-bezier(.34,.01,.53,1)');
             await face(x, 1);                      /* 360deg back to a clean base */
           }
@@ -292,7 +306,7 @@
             /* Backwards, out into the gutter. The outward leg breaks at the
                first third, he turns over, then carries on. */
             await dash(0, R / 3, bob);
-            await backflip(R / 3);
+            await sideflip(R / 3);
             await dash(R / 3, R, bob);
             await wait(rnd(600, 1500));
             if (!running) break;
