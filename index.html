@@ -115,7 +115,9 @@
         bottom: 0;
         left: 100%;
         margin-left: clamp(0.5rem, 1.6vw, 1.75rem);
-        width: clamp(23px, 3vw, 48px);
+        /* A fixed share of the card, not of the viewport, so he keeps the
+           same proportion to it at every screen size. */
+        width: 8.6%;
         height: auto;
         opacity: 0.92;
         pointer-events: none;
@@ -125,11 +127,14 @@
       /* Below this width the card fills the page and there is no gutter to
          stand in, so the crab steps down under its bottom-right corner. */
       @media (max-width: 620px) {
+        /* A little more air under the card, so his run clears the footer. */
+        body { gap: 2.5rem; }
+
         .crab {
-          left: auto;
-          right: 0;
+          left: 0;
+          right: auto;
           bottom: auto;
-          top: calc(100% + 0.6rem);
+          top: calc(100% + 0.3rem);   /* clear of the footer's ascenders */
           margin-left: 0;
         }
       }
@@ -174,7 +179,7 @@
       <hr class="rule">
       <p class="epitaph">A life is measured in the love shared, the laughter remembered, and the lives made better along the way.</p>
       <svg class="crab" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
-        <g fill="none" stroke="#b35a3e" stroke-linecap="round">
+        <g fill="none" stroke="#996858" stroke-linecap="round">
           <g stroke-width="2.8">
             <path d="M36 32C31 35 27 37 22 38"/>
             <path d="M38 34C35 38 32 41 28 43"/>
@@ -189,19 +194,19 @@
           </g>
         </g>
         <!-- big claw (lower): stubby palm plus two short prongs -->
-        <ellipse cx="13" cy="32" rx="5" ry="4" fill="#cf7455"/>
-        <g stroke="#cf7455" stroke-width="3.4" stroke-linecap="round">
+        <ellipse cx="13" cy="32" rx="5" ry="4" fill="#b48270"/>
+        <g stroke="#b48270" stroke-width="3.4" stroke-linecap="round">
           <path d="M11 30.2L6.5 28.6"/><path d="M11 33.8L6.8 35.6"/>
         </g>
         <!-- small claw (upper) -->
-        <ellipse cx="14" cy="19" rx="3.6" ry="2.9" fill="#cf7455"/>
-        <g stroke="#cf7455" stroke-width="2.6" stroke-linecap="round">
+        <ellipse cx="14" cy="19" rx="3.6" ry="2.9" fill="#b48270"/>
+        <g stroke="#b48270" stroke-width="2.6" stroke-linecap="round">
           <path d="M12.6 17.8L9.4 16.6"/><path d="M12.6 20.2L9.6 21.6"/>
         </g>
-        <circle cx="23.2" cy="15" r="2.6" fill="#3a2a22"/>
-        <circle cx="28.4" cy="11.8" r="2.6" fill="#3a2a22"/>
-        <circle cx="42.0" cy="22.0" r="13.8" fill="#e2c9a3" stroke="#b0894f" stroke-width="1.6"/>
-        <path d="M41.48 20.49 L41.60 20.43 L41.73 20.39 L41.86 20.36 L42.00 20.33 L42.13 20.32 L42.27 20.32 L42.41 20.33 L42.55 20.35 L42.69 20.39 L42.83 20.43 L42.97 20.49 L43.10 20.56 L43.22 20.64 L43.34 20.73 L43.46 20.83 L43.56 20.95 L43.66 21.07 L43.75 21.20 L43.83 21.34 L43.90 21.48 L43.95 21.64 L44.00 21.79 L44.03 21.96 L44.05 22.12 L44.05 22.29 L44.04 22.46 L44.02 22.64 L43.98 22.81 L43.93 22.97 L43.86 23.14 L43.78 23.30 L43.68 23.46 L43.57 23.61 L43.45 23.75 L43.32 23.88 L43.17 24.00 L43.02 24.11 L42.85 24.21 L42.67 24.30 L42.49 24.37 L42.30 24.42 L42.10 24.47 L41.90 24.49 L41.69 24.50 L41.48 24.49 L41.27 24.47 L41.06 24.42 L40.86 24.36 L40.66 24.29 L40.46 24.19 L40.27 24.08 L40.08 23.95 L39.91 23.81 L39.74 23.65 L39.59 23.47 L39.45 23.28 L39.33 23.08 L39.22 22.87 L39.13 22.65 L39.06 22.42 L39.00 22.18 L38.97 21.93 L38.95 21.68 L38.96 21.43 L38.98 21.17 L39.03 20.92 L39.10 20.67 L39.19 20.42 L39.30 20.17 L39.43 19.94 L39.58 19.71 L39.75 19.50 L39.94 19.29 L40.15 19.11 L40.38 18.93 L40.62 18.78 L40.88 18.64 L41.15 18.53 L41.43 18.43 L41.72 18.36 L42.01 18.31 L42.32 18.28 L42.63 18.28 L42.94 18.31 L43.25 18.36 L43.56 18.44 L43.86 18.54 L44.16 18.67 L44.45 18.83 L44.73 19.01 L44.99 19.21 L45.24 19.44 L45.48 19.69 L45.69 19.96 L45.89 20.25 L46.06 20.56 L46.21 20.88 L46.33 21.22 L46.42 21.57 L46.49 21.93 L46.53 22.30 L46.53 22.68 L46.51 23.06 L46.45 23.43 L46.37 23.81 L46.25 24.18 L46.10 24.55 L45.92 24.91 L45.70 25.25 L45.46 25.58 L45.19 25.89 L44.89 26.18 L44.57 26.45 L44.22 26.69 L43.85 26.90 L43.46 27.09 L43.05 27.25 L42.62 27.37 L42.19 27.46 L41.74 27.51 L41.28 27.53 L40.82 27.51 L40.36 27.45 L39.90 27.35 L39.44 27.22 L38.99 27.04 L38.56 26.83 L38.13 26.58 L37.73 26.29 L37.34 25.97 L36.98 25.61 L36.65 25.23 L36.35 24.81 L36.08 24.36 L35.84 23.89 L35.64 23.40 L35.48 22.88 L35.36 22.35 L35.29 21.81 L35.26 21.25 L35.27 20.69 L35.33 20.13 L35.44 19.56 L35.60 19.01 L35.80 18.46 L36.05 17.92 L36.34 17.40 L36.68 16.90 L37.06 16.43 L37.49 15.98 L37.95 15.57 L38.45 15.19 L38.99 14.85 L39.56 14.55 L40.16 14.30 L40.78 14.09 L41.42 13.94 L42.08 13.83 L42.76 13.78 L43.44 13.79 L44.13 13.85 L44.81 13.97 L45.50 14.14 L46.17 14.37 L46.83 14.66 L47.46 15.01 L48.08 15.41 L48.66 15.87 L49.22 16.37 L49.73 16.93 L50.20 17.53 L50.63 18.18 L51.00 18.86 L51.33 19.58 L51.59 20.33 L51.80 21.11 L51.94 21.91 L52.01 22.73 L52.02 23.56 L51.97 24.40 L51.84 25.24 L51.64 26.07 L51.37 26.89 L51.03 27.70 L50.63 28.49 L50.15 29.24 L49.61 29.97 L49.01 30.65 L48.35 31.29 L47.62 31.88 L46.85 32.41 L46.03 32.88 L45.16 33.29 L44.25 33.63 L43.31 33.90 L42.33 34.09 L41.34 34.20 L40.33 34.23 L39.31 34.18 L38.29 34.04" fill="none" stroke="#b0894f" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="23.2" cy="15" r="2.6" fill="#352c27"/>
+        <circle cx="28.4" cy="11.8" r="2.6" fill="#352c27"/>
+        <circle cx="42.0" cy="22.0" r="13.8" fill="#d4c6b1" stroke="#9a8565" stroke-width="1.6"/>
+        <path d="M41.48 20.49 L41.60 20.43 L41.73 20.39 L41.86 20.36 L42.00 20.33 L42.13 20.32 L42.27 20.32 L42.41 20.33 L42.55 20.35 L42.69 20.39 L42.83 20.43 L42.97 20.49 L43.10 20.56 L43.22 20.64 L43.34 20.73 L43.46 20.83 L43.56 20.95 L43.66 21.07 L43.75 21.20 L43.83 21.34 L43.90 21.48 L43.95 21.64 L44.00 21.79 L44.03 21.96 L44.05 22.12 L44.05 22.29 L44.04 22.46 L44.02 22.64 L43.98 22.81 L43.93 22.97 L43.86 23.14 L43.78 23.30 L43.68 23.46 L43.57 23.61 L43.45 23.75 L43.32 23.88 L43.17 24.00 L43.02 24.11 L42.85 24.21 L42.67 24.30 L42.49 24.37 L42.30 24.42 L42.10 24.47 L41.90 24.49 L41.69 24.50 L41.48 24.49 L41.27 24.47 L41.06 24.42 L40.86 24.36 L40.66 24.29 L40.46 24.19 L40.27 24.08 L40.08 23.95 L39.91 23.81 L39.74 23.65 L39.59 23.47 L39.45 23.28 L39.33 23.08 L39.22 22.87 L39.13 22.65 L39.06 22.42 L39.00 22.18 L38.97 21.93 L38.95 21.68 L38.96 21.43 L38.98 21.17 L39.03 20.92 L39.10 20.67 L39.19 20.42 L39.30 20.17 L39.43 19.94 L39.58 19.71 L39.75 19.50 L39.94 19.29 L40.15 19.11 L40.38 18.93 L40.62 18.78 L40.88 18.64 L41.15 18.53 L41.43 18.43 L41.72 18.36 L42.01 18.31 L42.32 18.28 L42.63 18.28 L42.94 18.31 L43.25 18.36 L43.56 18.44 L43.86 18.54 L44.16 18.67 L44.45 18.83 L44.73 19.01 L44.99 19.21 L45.24 19.44 L45.48 19.69 L45.69 19.96 L45.89 20.25 L46.06 20.56 L46.21 20.88 L46.33 21.22 L46.42 21.57 L46.49 21.93 L46.53 22.30 L46.53 22.68 L46.51 23.06 L46.45 23.43 L46.37 23.81 L46.25 24.18 L46.10 24.55 L45.92 24.91 L45.70 25.25 L45.46 25.58 L45.19 25.89 L44.89 26.18 L44.57 26.45 L44.22 26.69 L43.85 26.90 L43.46 27.09 L43.05 27.25 L42.62 27.37 L42.19 27.46 L41.74 27.51 L41.28 27.53 L40.82 27.51 L40.36 27.45 L39.90 27.35 L39.44 27.22 L38.99 27.04 L38.56 26.83 L38.13 26.58 L37.73 26.29 L37.34 25.97 L36.98 25.61 L36.65 25.23 L36.35 24.81 L36.08 24.36 L35.84 23.89 L35.64 23.40 L35.48 22.88 L35.36 22.35 L35.29 21.81 L35.26 21.25 L35.27 20.69 L35.33 20.13 L35.44 19.56 L35.60 19.01 L35.80 18.46 L36.05 17.92 L36.34 17.40 L36.68 16.90 L37.06 16.43 L37.49 15.98 L37.95 15.57 L38.45 15.19 L38.99 14.85 L39.56 14.55 L40.16 14.30 L40.78 14.09 L41.42 13.94 L42.08 13.83 L42.76 13.78 L43.44 13.79 L44.13 13.85 L44.81 13.97 L45.50 14.14 L46.17 14.37 L46.83 14.66 L47.46 15.01 L48.08 15.41 L48.66 15.87 L49.22 16.37 L49.73 16.93 L50.20 17.53 L50.63 18.18 L51.00 18.86 L51.33 19.58 L51.59 20.33 L51.80 21.11 L51.94 21.91 L52.01 22.73 L52.02 23.56 L51.97 24.40 L51.84 25.24 L51.64 26.07 L51.37 26.89 L51.03 27.70 L50.63 28.49 L50.15 29.24 L49.61 29.97 L49.01 30.65 L48.35 31.29 L47.62 31.88 L46.85 32.41 L46.03 32.88 L45.16 33.29 L44.25 33.63 L43.31 33.90 L42.33 34.09 L41.34 34.20 L40.33 34.23 L39.31 34.18 L38.29 34.04" fill="none" stroke="#9a8565" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </main>
 
@@ -234,8 +239,12 @@
             : cr.right - (parseFloat(cs.right) || 0) - w;
           return { left: left, w: w, h: h };
         }
-        function gutter(m) {
-          return Math.max(0, window.innerWidth - m.left - m.w - 12);
+        /* Beside the card he runs out towards the window edge; below it he has
+           the full width of the card to range across. */
+        function runway(m) {
+          var below = window.matchMedia('(max-width: 620px)').matches;
+          var limit = below ? card.getBoundingClientRect().right : window.innerWidth - 12;
+          return Math.max(0, limit - m.left - m.w);
         }
         function rnd(a, b) { return a + Math.random() * (b - a); }
         function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
@@ -254,44 +263,55 @@
         }
 
         async function loop() {
-          var dir = 1;                              /* 1 = facing left, as drawn */
-          var laps = 0, target = 3 + Math.round(Math.random());
+          /* He always faces left, as drawn - he never turns round. So the run
+             out to the right is travelled backwards, and the run home is
+             forwards. The backflip caps every second or third backward run. */
+          var backRuns = 0, target = 2 + Math.round(Math.random());
+
+          async function dash(from, to, bob) {
+            var span = to - from;
+            await play([
+              { transform: tf(from, 0, 1, 0) },
+              { transform: tf(from + span * 0.25, -bob, 1, 0) },
+              { transform: tf(from + span * 0.5, 0, 1, 0) },
+              { transform: tf(from + span * 0.75, -bob, 1, 0) },
+              { transform: tf(to, 0, 1, 0) }
+            ], Math.min(4400, Math.max(1600, Math.abs(span) * 12.8)));
+          }
+
+          async function backflip(x) {
+            var hop = metrics().h * 0.3;   /* just a slight bump off the sand */
+            await play([
+              { transform: tf(x, 0, 1, 0) },
+              { transform: tf(x, -hop, 1, 180), offset: 0.5 },
+              { transform: tf(x, 0, 1, 360) }      /* over the shell */
+            ], 1440, 'cubic-bezier(.34,.01,.53,1)');
+            await face(x, 1);                      /* 360deg back to a clean base */
+          }
 
           while (running) {
             if (document.hidden) { await wait(600); continue; }
 
-            var m = metrics(), R = gutter(m);
+            var m = metrics(), R = runway(m);
             if (!(R >= 24)) { await wait(1200); continue; }  /* no room to run */
             var bob = m.w * 0.07;
 
-            for (var leg = 0; leg < 2 && running; leg++) {
-              var out = leg === 0;
-              var from = out ? 0 : R, to = out ? R : 0, d = out ? -1 : 1;
-              if (d !== dir) { await face(from, d); dir = d; }
-              var span = to - from;
-              await play([
-                { transform: tf(from, 0, d, 0) },
-                { transform: tf(from + span * 0.25, -bob, d, 0) },
-                { transform: tf(from + span * 0.5, 0, d, 0) },
-                { transform: tf(from + span * 0.75, -bob, d, 0) },
-                { transform: tf(to, 0, d, 0) }
-              ], Math.min(2200, Math.max(800, R * 6.4)));
-              await wait(rnd(250, 1000));
+            /* Backwards, out into the gutter. On a flip run the outward leg is
+               broken at the first third, he turns over, then carries on. */
+            if (++backRuns >= target) {
+              backRuns = 0;
+              target = 2 + Math.round(Math.random());
+              await dash(0, R / 3, bob);
+              await backflip(R / 3);
+              await dash(R / 3, R, bob);
+            } else {
+              await dash(0, R, bob);
             }
+            await wait(rnd(600, 1500));
+            if (!running) break;
 
-            if (++laps >= target) {
-              laps = 0;
-              target = 3 + Math.round(Math.random());
-              var turn = 360 * dir;                 /* backwards, over the shell */
-              var hop = metrics().h * 0.3;   /* just a slight bump off the sand */
-              await play([
-                { transform: tf(0, 0, dir, 0) },
-                { transform: tf(0, -hop, dir, turn / 2), offset: 0.5 },
-                { transform: tf(0, 0, dir, turn) }
-              ], 1440, 'cubic-bezier(.34,.01,.53,1)');
-              await face(0, dir);                   /* 360 deg back to a clean base */
-              await wait(rnd(600, 1600));
-            }
+            await dash(R, 0, bob);                 /* forwards, home again */
+            await wait(rnd(600, 1500));
           }
         }
 
