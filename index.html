@@ -193,19 +193,18 @@
         opacity: 0.85;
       }
 
-      /* The crab is the control. This line is a second one, plainly
-         labelled, because a moving 45px crab is not something everyone can
-         hit and nobody should have to. */
+      /* The crab is the control. This is a second one, because a moving
+         45px crab is not something everyone can hit and nobody should have
+         to. A speaker icon rather than words: it says the same thing in a
+         quarter of the space, and the page has no other prose to match. */
       .music {
         display: block;
         margin: 1.1rem auto 0;
-        padding: 0.2rem 0.4rem;
+        padding: 0.3rem;
         border: 0;
         background: none;
         color: var(--ink);
-        font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
-        font-size: 0.8125rem;
-        font-style: italic;
+        line-height: 0;
         opacity: 0.5;
         cursor: pointer;
         transition: opacity 0.3s ease;
@@ -213,6 +212,16 @@
 
       .music:hover,
       .music:focus-visible { opacity: 0.85; }
+
+      .music-icon { width: 20px; height: 20px; }
+      .music-icon .spk { fill: currentColor; }
+      .music-icon .waves,
+      .music-icon .slash { fill: none; stroke: currentColor; }
+
+      /* Silent shows the slash, playing shows the waves. The button's
+         aria-pressed drives both, so there is one source of truth. */
+      .music[aria-pressed="false"] .waves,
+      .music[aria-pressed="true"] .slash { display: none; }
 
       /* The provenance stays out of sight until the music is actually
          playing, at which point it is the only thing worth saying. Opacity
@@ -264,8 +273,15 @@
 
     <footer>
       <p class="memory">In loving memory</p>
-      <button class="music" type="button" aria-pressed="false">
-        <span class="music-label">Play music</span>
+      <button class="music" type="button" aria-pressed="false" aria-label="Play music">
+        <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
+          <g class="waves" stroke-width="1.35" stroke-linecap="round">
+            <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
+            <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
+          </g>
+          <path class="slash" stroke-width="1.35" stroke-linecap="round" d="M10.6 5.6l4.2 4.8"/>
+        </svg>
       </button>
     </footer>
 
@@ -288,7 +304,6 @@
          not a property CSS or the animation API can tween. */
       (function () {
         var btn = document.querySelector('.music');
-        var label = document.querySelector('.music-label');
         var credit = document.querySelector('.music-credit');
         var audio = document.querySelector('.music-track');
         var crab = document.querySelector('.crab');
@@ -317,7 +332,7 @@
             crab.setAttribute('aria-label',
               playing ? 'Pause music' : 'Play music');
           }
-          label.textContent = playing ? 'Pause music' : 'Play music';
+          btn.setAttribute('aria-label', playing ? 'Pause music' : 'Play music');
           if (credit) credit.classList.toggle('on', playing);
         }
 
