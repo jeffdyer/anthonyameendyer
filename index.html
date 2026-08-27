@@ -246,7 +246,7 @@
       <hr class="rule">
       <p class="epitaph">A life is measured in the love shared, the laughter remembered, and the lives made better along the way.</p>
       <svg class="crab" viewBox="0 0 64 48" role="button" tabindex="0"
-           aria-pressed="false" aria-label="Play song">
+           aria-pressed="false" aria-label="Sound on">
         <rect width="64" height="48" fill="transparent"/>
         <g class="leg l1l" style="transform-origin:20.0px 30.0px"><path d="M20.0 30.0Q14.0 30.0 9.0 32.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
         <g class="leg l2l" style="transform-origin:21.0px 33.0px"><path d="M21.0 33.0Q16.0 36.0 11.0 39.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
@@ -265,7 +265,7 @@
     <footer>
       <p class="memory">In loving memory</p>
       <button class="music" type="button" aria-pressed="false">
-        <span class="music-label">Play song</span>
+        <span class="music-label">Sound on</span>
       </button>
     </footer>
 
@@ -315,9 +315,9 @@
           if (crab) {
             crab.setAttribute('aria-pressed', playing ? 'true' : 'false');
             crab.setAttribute('aria-label',
-              playing ? 'Pause song' : 'Play song');
+              playing ? 'Sound off' : 'Sound on');
           }
-          label.textContent = playing ? 'Pause song' : 'Play song';
+          label.textContent = playing ? 'Sound off' : 'Sound on';
           if (credit) credit.classList.toggle('on', playing);
         }
 
