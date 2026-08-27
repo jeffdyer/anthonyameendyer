@@ -184,6 +184,49 @@
         opacity: 0.85;
       }
 
+      /* A quiet control, not a media player. It reads as a line of the
+         footer until you attend to it, which is as much attention as
+         background music on a memorial page should ask for. */
+      .music {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin: 1.3rem auto 0;
+        padding: 0.4rem 0.85rem 0.4rem 0.7rem;
+        border: 1px solid rgba(var(--shadow), 0.22);
+        border-radius: 999px;
+        background: rgba(249, 247, 241, 0.44);
+        color: var(--ink);
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+        opacity: 0.75;
+        cursor: pointer;
+        transition: opacity 0.25s ease, background-color 0.25s ease;
+      }
+
+      .music:hover,
+      .music:focus-visible { opacity: 1; background: rgba(249, 247, 241, 0.8); }
+
+      .music-icon { flex: none; width: 14px; height: 14px; }
+      .music-icon .spk { fill: currentColor; }
+      .music-icon .waves, .music-icon .slash { stroke: currentColor; fill: none; }
+
+      /* Off shows the slash, on shows the waves. */
+      .music[aria-pressed="false"] .waves,
+      .music[aria-pressed="true"] .slash { display: none; }
+
+      /* Provenance, small. It is here partly out of respect and partly so
+         that anyone who wonders whether we had the right to use this can
+         see the answer without asking. */
+      .music-credit {
+        margin: 0.45rem 0 0;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.6875rem;
+        letter-spacing: 0.02em;
+        opacity: 0.62;
+      }
+
       @keyframes rise {
         from { opacity: 0; transform: translateY(14px); }
         to   { opacity: 1; transform: translateY(0); }
@@ -218,10 +261,75 @@
 
     <footer>
       <p class="memory">In loving memory</p>
+      <button class="music" type="button" aria-pressed="false">
+        <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
+          <g class="waves" stroke-width="1.35" stroke-linecap="round">
+            <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
+            <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
+          </g>
+          <path class="slash" stroke-width="1.35" stroke-linecap="round" d="M10.6 5.6l4.2 4.8"/>
+        </svg>
+        <span class="music-label">Aloha &#699;Oe</span>
+      </button>
+      <p class="music-credit">Queen Lili&#699;uokalani, 1878 &middot; recorded by Frank Ferera, 1923</p>
     </footer>
+
+    <!-- preload="none" so a visitor who never asks for music never downloads
+         it. The m4a is listed first and is half the size; the mp3 is there
+         for anything that will not take AAC. No autoplay attribute anywhere. -->
+    <audio class="music-track" loop preload="none">
+      <source src="aloha-oe.m4a" type="audio/mp4">
+      <source src="aloha-oe.mp3" type="audio/mpeg">
+    </audio>
 
 
     <script>
+      /* Background music, off until asked for. Volume is ramped by hand at
+         both ends - an abrupt cut in or out is jarring in a quiet room, and
+         volume is not a property CSS or the animation API can tween. */
+      (function () {
+        var btn = document.querySelector('.music');
+        var label = document.querySelector('.music-label');
+        var credit = document.querySelector('.music-credit');
+        var audio = document.querySelector('.music-track');
+        if (!btn || !audio) return;
+
+        var LEVEL = 0.5;   /* a bed under the page, not a performance */
+        var fade;
+
+        function ramp(to, ms, done) {
+          clearInterval(fade);
+          var from = audio.volume, t0 = Date.now();
+          fade = setInterval(function () {
+            var k = Math.min(1, (Date.now() - t0) / ms);
+            audio.volume = from + (to - from) * k;
+            if (k === 1) { clearInterval(fade); if (done) done(); }
+          }, 40);
+        }
+
+        btn.addEventListener('click', function () {
+          if (btn.getAttribute('aria-pressed') === 'true') {
+            ramp(0, 800, function () { audio.pause(); });
+            btn.setAttribute('aria-pressed', 'false');
+            return;
+          }
+          audio.volume = 0;
+          var started = audio.play();
+          btn.setAttribute('aria-pressed', 'true');
+          ramp(LEVEL, 2000);
+          if (started && started.catch) started.catch(fail);
+        });
+
+        /* A file that will not play should leave no dead control behind. */
+        function fail() {
+          clearInterval(fade);
+          btn.remove();
+          if (credit) credit.remove();
+        }
+        audio.addEventListener('error', fail);
+      })();
+
       /* The crab scurries out into the gutter and back. Every third or fourth
          lap - picked fresh each time - it throws in a backflip. Script-driven
          because "a random lap" is not something CSS keyframes can say. */
