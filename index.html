@@ -120,7 +120,7 @@
         width: 10.3%;
         height: auto;
         opacity: 0.92;
-        pointer-events: none;
+        cursor: pointer;
         animation: rise 1.4s ease-out 0.6s both;
       }
 
@@ -129,6 +129,15 @@
          so the gait reads as a gait and not a shiver. */
       .crab .leg,
       .crab .claw { transform-box: view-box; }
+
+      /* He is the play button, so he has to be reachable by keyboard too.
+         The ring is drawn around the carapace rather than the SVG box, which
+         is mostly empty air. */
+      .crab:focus-visible { outline: none; }
+      .crab:focus-visible .body {
+        stroke: var(--ink);
+        stroke-width: 2.4;
+      }
 
       .crab.walking .leg { animation: scuttle 0.30s ease-in-out infinite alternate; }
       .crab.walking .claw { animation: brandish 0.60s ease-in-out infinite alternate; }
@@ -184,48 +193,40 @@
         opacity: 0.85;
       }
 
-      /* A quiet control, not a media player. It reads as a line of the
-         footer until you attend to it, which is as much attention as
-         background music on a memorial page should ask for. */
+      /* The crab is the control; this is only the hint that says so. It is
+         a real button as well, because a moving 45px crab is not something
+         everyone can hit, and nobody should have to. */
       .music {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        margin: 1.3rem auto 0;
-        padding: 0.4rem 0.85rem 0.4rem 0.7rem;
-        border: 1px solid rgba(var(--shadow), 0.22);
-        border-radius: 999px;
-        background: rgba(249, 247, 241, 0.44);
+        display: block;
+        margin: 1.1rem auto 0;
+        padding: 0.2rem 0.4rem;
+        border: 0;
+        background: none;
         color: var(--ink);
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 0.78rem;
-        letter-spacing: 0.03em;
-        opacity: 0.75;
+        font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+        font-size: 0.8125rem;
+        font-style: italic;
+        opacity: 0.5;
         cursor: pointer;
-        transition: opacity 0.25s ease, background-color 0.25s ease;
+        transition: opacity 0.3s ease;
       }
 
       .music:hover,
-      .music:focus-visible { opacity: 1; background: rgba(249, 247, 241, 0.8); }
+      .music:focus-visible { opacity: 0.85; }
 
-      .music-icon { flex: none; width: 14px; height: 14px; }
-      .music-icon .spk { fill: currentColor; }
-      .music-icon .waves, .music-icon .slash { stroke: currentColor; fill: none; }
-
-      /* Off shows the slash, on shows the waves. */
-      .music[aria-pressed="false"] .waves,
-      .music[aria-pressed="true"] .slash { display: none; }
-
-      /* Provenance, small. It is here partly out of respect and partly so
-         that anyone who wonders whether we had the right to use this can
-         see the answer without asking. */
+      /* The provenance stays out of sight until the music is actually
+         playing, at which point it is the only thing worth saying. Opacity
+         rather than display, so the line below never jumps. */
       .music-credit {
-        margin: 0.45rem 0 0;
+        margin: 0.3rem 0 0;
         font-family: Helvetica, Arial, sans-serif;
         font-size: 0.6875rem;
         letter-spacing: 0.02em;
-        opacity: 0.62;
+        opacity: 0;
+        transition: opacity 0.9s ease;
       }
+
+      .music-credit.on { opacity: 0.55; }
 
       @keyframes rise {
         from { opacity: 0; transform: translateY(14px); }
@@ -244,7 +245,9 @@
       <p class="dates">December 8, 1969 &ndash; May 5, 2026</p>
       <hr class="rule">
       <p class="epitaph">A life is measured in the love shared, the laughter remembered, and the lives made better along the way.</p>
-      <svg class="crab" viewBox="0 0 64 48" aria-hidden="true" focusable="false">
+      <svg class="crab" viewBox="0 0 64 48" role="button" tabindex="0"
+           aria-pressed="false" aria-label="Play Aloha &#699;Oe">
+        <rect width="64" height="48" fill="transparent"/>
         <g class="leg l1l" style="transform-origin:20.0px 30.0px"><path d="M20.0 30.0Q14.0 30.0 9.0 32.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
         <g class="leg l2l" style="transform-origin:21.0px 33.0px"><path d="M21.0 33.0Q16.0 36.0 11.0 39.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
         <g class="leg l3l" style="transform-origin:24.0px 36.0px"><path d="M24.0 36.0Q21.0 40.0 18.0 44.0" fill="none" stroke="#a9765f" stroke-width="2.6" stroke-linecap="round"/></g>
@@ -254,7 +257,7 @@
         <g class="claw cl" style="transform-origin:21.0px 25.0px"><path d="M21.0 25.0Q17.0 21.0 13.2 18.2" fill="none" stroke="#a9765f" stroke-width="3.1" stroke-linecap="round"/><path d="M3.0 10.8 L12.5 14.2 C15.8 15.4 15.8 20.6 12.5 21.8 L3.4 23.0 L7.8 17.2 Z" fill="#a9765f" stroke="#a9765f" stroke-width="1.4" stroke-linejoin="round"/></g>
         <g class="claw cr" style="transform-origin:43.0px 25.0px"><path d="M43.0 25.0Q47.0 21.0 50.8 18.2" fill="none" stroke="#a9765f" stroke-width="3.1" stroke-linecap="round"/><path d="M61.0 10.8 L51.5 14.2 C48.2 15.4 48.2 20.6 51.5 21.8 L60.6 23.0 L56.2 17.2 Z" fill="#a9765f" stroke="#a9765f" stroke-width="1.4" stroke-linejoin="round"/></g>
         <g fill="none" stroke="#96685a" stroke-width="1.9" stroke-linecap="round"><path d="M27.5 22L26.5 17.4"/><path d="M36.5 22L37.5 17.4"/></g>
-        <ellipse cx="32" cy="29" rx="14.5" ry="9.8" fill="#b8846f" stroke="#96685a" stroke-width="1.3"/>
+        <ellipse class="body" cx="32" cy="29" rx="14.5" ry="9.8" fill="#b8846f" stroke="#96685a" stroke-width="1.3"/>
         <circle cx="26.4" cy="16" r="2.4" fill="#352c27"/><circle cx="37.6" cy="16" r="2.4" fill="#352c27"/>
       </svg>
     </main>
@@ -262,17 +265,9 @@
     <footer>
       <p class="memory">In loving memory</p>
       <button class="music" type="button" aria-pressed="false">
-        <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
-          <g class="waves" stroke-width="1.35" stroke-linecap="round">
-            <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
-            <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
-          </g>
-          <path class="slash" stroke-width="1.35" stroke-linecap="round" d="M10.6 5.6l4.2 4.8"/>
-        </svg>
-        <span class="music-label">Aloha &#699;Oe</span>
+        <span class="music-label">Ask the crab for a song</span>
       </button>
-      <p class="music-credit">Queen Lili&#699;uokalani, 1878 &middot; recorded by Frank Ferera, 1923</p>
+      <p class="music-credit">Aloha &#699;Oe &middot; Queen Lili&#699;uokalani, 1878 &middot; recorded 1923</p>
     </footer>
 
     <!-- preload="none" so a visitor who never asks for music never downloads
@@ -285,17 +280,21 @@
 
 
     <script>
-      /* Background music, off until asked for. Volume is ramped by hand at
-         both ends - an abrupt cut in or out is jarring in a quiet room, and
-         volume is not a property CSS or the animation API can tween. */
+      /* Background music, off until asked for. The crab is the control; the
+         line under the footer says so and is a control itself, since a moving
+         45px crab is not a target everyone can hit. Volume is ramped by hand
+         at both ends - an abrupt cut is jarring in a quiet room, and volume is
+         not a property CSS or the animation API can tween. */
       (function () {
         var btn = document.querySelector('.music');
         var label = document.querySelector('.music-label');
         var credit = document.querySelector('.music-credit');
         var audio = document.querySelector('.music-track');
+        var crab = document.querySelector('.crab');
         if (!btn || !audio) return;
 
         var LEVEL = 0.5;   /* a bed under the page, not a performance */
+        var playing = false;
         var fade;
 
         function ramp(to, ms, done) {
@@ -308,24 +307,64 @@
           }, 40);
         }
 
-        btn.addEventListener('click', function () {
-          if (btn.getAttribute('aria-pressed') === 'true') {
-            ramp(0, 800, function () { audio.pause(); });
-            btn.setAttribute('aria-pressed', 'false');
-            return;
+        function toggle() {
+          playing = !playing;
+          btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+          if (crab) {
+            crab.setAttribute('aria-pressed', playing ? 'true' : 'false');
+            crab.setAttribute('aria-label',
+              playing ? 'Stop Aloha \u02bbOe' : 'Play Aloha \u02bbOe');
           }
+          label.textContent = playing ? 'The crab is playing' : 'Ask the crab for a song';
+          credit.classList.toggle('on', playing);
+
+          if (!playing) { ramp(0, 900, function () { audio.pause(); }); return; }
           audio.volume = 0;
           var started = audio.play();
-          btn.setAttribute('aria-pressed', 'true');
           ramp(LEVEL, 2000);
           if (started && started.catch) started.catch(fail);
-        });
+        }
+
+        btn.addEventListener('click', toggle);
+
+        if (crab) {
+          crab.addEventListener('click', toggle);
+          /* Space and Enter, as a real button would. Space also scrolls the
+             page unless that is taken off it. */
+          crab.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+              e.preventDefault();
+              toggle();
+            }
+          });
+
+          /* Hold him still while someone is reaching for him, and let him go
+             when they leave. Without this he is a target that runs away. */
+          function hold(on) {
+            if (on) { crab.dataset.hold = '1'; } else { delete crab.dataset.hold; }
+            crab.getAnimations().forEach(function (a) {
+              if (on) { a.pause(); } else if (a.playState === 'paused') { a.play(); }
+            });
+          }
+          crab.addEventListener('mouseenter', function () { hold(true); });
+          crab.addEventListener('mouseleave', function () { hold(false); });
+          crab.addEventListener('focus', function () { hold(true); });
+          crab.addEventListener('blur', function () { hold(false); });
+        }
 
         /* A file that will not play should leave no dead control behind. */
         function fail() {
           clearInterval(fade);
+          playing = false;
           btn.remove();
           if (credit) credit.remove();
+          if (crab) {
+            crab.removeAttribute('role');
+            crab.removeAttribute('tabindex');
+            crab.removeAttribute('aria-pressed');
+            crab.setAttribute('aria-hidden', 'true');
+            crab.style.cursor = '';
+          }
         }
         audio.addEventListener('error', fail);
       })();
@@ -367,9 +406,13 @@
                + ' rotate(' + rot.toFixed(1) + 'deg) scaleX(' + dir + ')';
         }
         function play(frames, ms, easing) {
-          return crab.animate(frames, {
+          var a = crab.animate(frames, {
             duration: ms, easing: easing || 'ease-in-out', fill: 'forwards'
-          }).finished.catch(function () {});
+          });
+          /* Held the moment it is created, so a lap that begins while the
+             pointer is already on him does not run out from under it. */
+          if (crab.dataset.hold) a.pause();
+          return a.finished.catch(function () {});
         }
         /* Turning has to be instant - tweening scaleX would squash it through zero. */
         function face(x, dir) {
