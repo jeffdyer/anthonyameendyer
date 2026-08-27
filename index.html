@@ -218,8 +218,13 @@
       .music-icon .waves,
       .music-icon .slash { fill: none; stroke: currentColor; }
 
-      /* Silent shows the slash, playing shows the waves. The button's
-         aria-pressed drives both, so there is one source of truth. */
+      /* Silent shows a cross where the waves would be, playing shows the
+         waves. A cross rather than a line struck through the whole glyph:
+         both are conventional, but a struck-through line crosses the filled
+         speaker body and would need knocking out against a gradient that
+         changes down the page. The cross sits in empty space and stays
+         legible on any background. The button's aria-pressed drives which
+         half shows, so there is one source of truth. */
       .music[aria-pressed="false"] .waves,
       .music[aria-pressed="true"] .slash { display: none; }
 
@@ -280,7 +285,10 @@
             <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
             <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
           </g>
-          <path class="slash" stroke-width="1.35" stroke-linecap="round" d="M10.6 5.6l4.2 4.8"/>
+          <g class="slash" stroke-width="1.5" stroke-linecap="round">
+            <path d="M10.7 5.9l3.9 3.9"/>
+            <path d="M14.6 5.9l-3.9 3.9"/>
+          </g>
         </svg>
       </button>
     </footer>
