@@ -270,10 +270,11 @@
     </footer>
 
     <!-- preload="none" so a visitor who never asks for music never downloads
-         it, and no autoplay attribute anywhere. Sources are tried in order and
+         it, and no autoplay attribute anywhere. It plays once rather than
+         looping. Sources are tried in order and
          a 404 falls through to the next, so whichever of these exists is the
          one that plays; the m4a is first because it is the smaller file. -->
-    <audio class="music-track" loop preload="none">
+    <audio class="music-track" preload="none">
       <source src="sound.m4a" type="audio/mp4">
       <source src="sound.mp3" type="audio/mpeg">
     </audio>
@@ -307,8 +308,9 @@
           }, 40);
         }
 
-        function toggle() {
-          playing = !playing;
+        /* Every control and label reads off `playing`, so the ended handler
+           can put things back simply by clearing it and calling this. */
+        function render() {
           btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
           if (crab) {
             crab.setAttribute('aria-pressed', playing ? 'true' : 'false');
@@ -317,13 +319,27 @@
           }
           label.textContent = playing ? 'The crab is playing' : 'Ask the crab for a song';
           if (credit) credit.classList.toggle('on', playing);
+        }
 
+        function toggle() {
+          playing = !playing;
+          render();
           if (!playing) { ramp(0, 900, function () { audio.pause(); }); return; }
           audio.volume = 0;
           var started = audio.play();
           ramp(LEVEL, 2000);
           if (started && started.catch) started.catch(fail);
         }
+
+        /* It plays once. When it runs out the control goes back to offering
+           the song rather than sitting there claiming to still be playing,
+           and rewinds so the next press starts at the beginning. */
+        audio.addEventListener('ended', function () {
+          clearInterval(fade);
+          playing = false;
+          audio.currentTime = 0;
+          render();
+        });
 
         btn.addEventListener('click', toggle);
 
