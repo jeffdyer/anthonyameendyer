@@ -354,15 +354,28 @@
           if (started && started.catch) started.catch(fail);
         }
 
-        /* It plays once. When it runs out the control goes back to offering
-           the song rather than sitting there claiming to still be playing,
-           and rewinds so the next press starts at the beginning. */
-        audio.addEventListener('ended', function () {
+        /* Playback can stop without our asking: the recording runs out, or
+           the browser interrupts it. Either way the control has to come back
+           to offering it rather than sitting there showing sound.
+
+           render() runs BEFORE the rewind. Seeking an element that has just
+           ended throws in some browsers, and when it did, the throw took the
+           icon update down with it - the state said stopped and the speaker
+           still showed waves. The seek is now last and guarded, so it cannot
+           take anything with it if it fails.
+
+           Guarding on `playing` keeps our own fade-out from tripping this:
+           there the flag is already false, so it returns before touching
+           anything and the paused position is kept. */
+        function stopped(rewind) {
           clearInterval(fade);
+          if (!playing) return;
           playing = false;
-          audio.currentTime = 0;
           render();
-        });
+          if (rewind) { try { audio.currentTime = 0; } catch (e) {} }
+        }
+        audio.addEventListener('ended', function () { stopped(true); });
+        audio.addEventListener('pause', function () { stopped(false); });
 
         btn.addEventListener('click', toggle);
 
