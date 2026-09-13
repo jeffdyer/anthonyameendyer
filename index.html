@@ -14,6 +14,13 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg stroke-width='3.6' stroke-linecap='round' fill='none'%3E%3Cpath d='M3 9C7 4.5 11.5 4.5 16 9C20.5 13.5 25 13.5 29 9' stroke='%2387bfc1'/%3E%3Cpath d='M3 16C7 11.5 11.5 11.5 16 16C20.5 20.5 25 20.5 29 16' stroke='%2347a2b0'/%3E%3Cpath d='M3 23C7 18.5 11.5 18.5 16 23C20.5 27.5 25 27.5 29 23' stroke='%2347a2b0'/%3E%3C/g%3E%3C/svg%3E">
     <style>
       :root {
+        /* The gutter the crab rests in, and the width of the speaker that now
+           shares it with him. Both are named here because the crab's offset
+           is measured from the speaker's far side - he has to start clear of
+           it, or he would be standing on the control. */
+        --tide: clamp(0.5rem, 1.6vw, 1.75rem);
+        --speaker: 1.85rem;   /* 20px icon + 0.3rem padding either side */
+
         /* Sampled from the water just outside the shore break in Tony's photo:
            #47a2b0 deeper, #87bfc1 sandy turquoise, #9ac9c9 where sand lightens
            it. Deeper up top, paling toward the bottom, as water does to shore. */
@@ -114,7 +121,7 @@
         position: absolute;
         bottom: 0;
         left: 100%;
-        margin-left: clamp(0.5rem, 1.6vw, 1.75rem);
+        margin-left: calc(var(--tide) + var(--speaker) + 0.6rem);
         /* A fixed share of the card, not of the viewport, so he keeps the
            same proportion to it at every screen size. */
         width: 10.3%;
@@ -167,7 +174,7 @@
           right: auto;
           bottom: auto;
           top: calc(100% + 0.3rem);   /* clear of the footer's ascenders */
-          margin-left: 0;
+          margin-left: calc(var(--speaker) + 0.6rem);
         }
       }
 
@@ -227,10 +234,17 @@
       /* The crab is the control. This is a second one, because a moving
          45px crab is not something everyone can hit and nobody should have
          to. A speaker icon rather than words: it says the same thing in a
-         quarter of the space, and the page has no other prose to match. */
+         quarter of the space, and the page has no other prose to match.
+
+         It stands in the gutter between the card and the crab, anchored to
+         the same corner the crab is, so the three keep their spacing at every
+         card width. Safe from being run over: the crab only ever travels out
+         to the right of where he rests, never back past this. */
       .music {
-        display: block;
-        margin: 1.1rem auto 0;
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+        margin-left: var(--tide);
         padding: 0.3rem;
         border: 0;
         background: none;
@@ -243,6 +257,20 @@
 
       .music:hover,
       .music:focus-visible { opacity: 0.85; }
+
+      /* Below the card he steps down to the bottom-left corner, and the
+         speaker goes with him, still on his left. This has to sit after the
+         rules above rather than join the other narrow-screen rules further
+         up: same specificity, so whichever is written last wins, media query
+         or not. */
+      @media (max-width: 620px) {
+        .music {
+          left: 0;
+          bottom: auto;
+          top: calc(100% + 0.3rem);
+          margin-left: 0;
+        }
+      }
 
       .music-icon { width: 20px; height: 20px; }
       .music-icon .spk { fill: currentColor; }
@@ -317,6 +345,19 @@
       <p class="dates">December 8, 1969 &ndash; May 5, 2026</p>
       <hr class="rule">
       <p class="epitaph">A life is measured in the love shared, the laughter remembered, and the lives made better along the way.</p>
+      <button class="music" type="button" aria-pressed="false" aria-label="Play music">
+        <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
+          <g class="waves" stroke-width="1.35" stroke-linecap="round">
+            <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
+            <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
+          </g>
+          <g class="slash" stroke-width="1.5" stroke-linecap="round">
+            <path d="M10.7 5.9l3.9 3.9"/>
+            <path d="M14.6 5.9l-3.9 3.9"/>
+          </g>
+        </svg>
+      </button>
       <svg class="crab" viewBox="0 0 64 48" role="button" tabindex="0"
            aria-pressed="false" aria-label="Play music">
         <rect width="64" height="48" fill="transparent"/>
@@ -337,19 +378,6 @@
     <footer>
       <p class="memory">In loving memory</p>
       <p class="more"><a href="obituary.html">Obituary</a><a href="tony-slideshow.mp4">Life in Pictures</a></p>
-      <button class="music" type="button" aria-pressed="false" aria-label="Play music">
-        <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
-          <g class="waves" stroke-width="1.35" stroke-linecap="round">
-            <path d="M10.4 5.9a3.2 3.2 0 0 1 0 4.2"/>
-            <path d="M12.5 4.1a6 6 0 0 1 0 7.8"/>
-          </g>
-          <g class="slash" stroke-width="1.5" stroke-linecap="round">
-            <path d="M10.7 5.9l3.9 3.9"/>
-            <path d="M14.6 5.9l-3.9 3.9"/>
-          </g>
-        </svg>
-      </button>
       <div class="progress" aria-hidden="true"><span class="progress-fill"></span></div>
     </footer>
 
