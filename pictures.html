@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthony Ameen Dyer &mdash; Life in Pictures</title>
+    <meta name="description" content="A slideshow of the life of Anthony &ldquo;Tony&rdquo; Ameen Dyer, December 8, 1969 &ndash; May 5, 2026.">
+
+    <meta property="og:title" content="Anthony Ameen Dyer &mdash; Life in Pictures">
+    <meta property="og:description" content="December 8, 1969 &ndash; May 5, 2026">
+    <meta property="og:type" content="video.other">
+    <meta property="og:image" content="pictures-poster.jpg">
+
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <style>
+      :root {
+        --bg-top: #6fb3bb;
+        --bg-bottom: #a9d1d0;
+        --ink: #204e57;
+        --shadow: 18, 66, 74;
+        --card: #f9f7f1;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 2.5rem 1.25rem;
+        background-image: url('foam.png'),
+                          linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
+        background-repeat: repeat-x, no-repeat;
+        background-position: center 72%, center;
+        color: var(--ink);
+        font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        /* Wide enough for the film to play at something like its own size,
+           and no wider - past 880px a 720p slideshow only gets softer. */
+        width: min(880px, 100%);
+        padding: 1.5rem 1.5rem 1.75rem;
+        background: var(--card);
+        border-radius: 4px;
+        box-shadow:
+          0 1px 2px rgba(var(--shadow), 0.12),
+          0 18px 48px rgba(var(--shadow), 0.28);
+        text-align: center;
+        animation: rise 1.4s ease-out both;
+      }
+
+      .name {
+        margin: 0;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        color: #333;
+      }
+
+      .dates {
+        margin: 0.35rem 0 1.25rem;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.95rem;
+        color: #555;
+      }
+
+      /* The film carries its own black bars around each photograph, so it
+         sits on black rather than on the card's cream - anything else would
+         read as a second frame around the first. */
+      .film {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border: 1px solid rgba(var(--shadow), 0.28);
+      }
+
+      /* No autoplay. It is fifteen minutes with sound, and a visitor who has
+         not pressed anything should not be handed either. Pressing play is
+         also what earns the sound: a browser will mute or refuse a film that
+         starts on its own, and never one the viewer asked for. */
+      .note {
+        margin: 1rem 0 0;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.8125rem;
+        color: #6b8086;
+      }
+
+      footer {
+        text-align: center;
+        animation: rise 1.4s ease-out 0.35s both;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      .back {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 1.0625rem;
+        color: var(--ink);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card, footer { animation: none; }
+      }
+
+      @media (max-width: 30rem) {
+        .card { padding: 1.25rem 1rem 1.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1 class="name">Anthony Ameen Dyer</h1>
+      <p class="dates">December 8, 1969 &ndash; May 5, 2026</p>
+
+      <video class="film" controls playsinline preload="metadata"
+             poster="pictures-poster.jpg">
+        <source src="tony-slideshow.mp4" type="video/mp4">
+        <p>This browser cannot play the film.
+           <a href="tony-slideshow.mp4">Download it instead</a>.</p>
+      </video>
+
+      <p class="note">15 minutes, with sound.</p>
+    </main>
+
+    <footer>
+      <p><a class="back" href="./">Return to remembrance</a></p>
+    </footer>
+  </body>
+</html>
