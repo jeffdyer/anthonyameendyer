@@ -450,7 +450,7 @@
           if (!playing) { ramp(0, 900, function () { audio.pause(); }); return; }
           audio.volume = 0;
           var started = audio.play();
-          ramp(LEVEL, 2000);
+          ramp(LEVEL, 700);
           if (started && started.catch) started.catch(fail);
         }
 
