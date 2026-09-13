@@ -193,6 +193,33 @@
         opacity: 0.85;
       }
 
+      /* The two places to go from here. Both are served from this domain,
+         so each is only a link - and the slideshow opens in the same tab on
+         purpose, because leaving the page stops the music rather than laying
+         the recording under the slideshow's own sound. Sized to match the
+         other sites in the family, quiet enough that the photograph above is
+         still the page. */
+      .more {
+        margin: 0.9rem 0 0;
+      }
+
+      .more + .more {
+        margin-top: 0.35rem;
+      }
+
+      .more a {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 0.9375rem;
+        color: var(--ink);
+        opacity: 0.75;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: opacity 0.3s ease;
+      }
+
+      .more a:hover,
+      .more a:focus-visible { opacity: 1; }
+
       /* The crab is the control. This is a second one, because a moving
          45px crab is not something everyone can hit and nobody should have
          to. A speaker icon rather than words: it says the same thing in a
@@ -305,6 +332,8 @@
 
     <footer>
       <p class="memory">In loving memory</p>
+      <p class="more"><a href="obituary.html">Read his obituary</a></p>
+      <p class="more"><a href="tony-slideshow.mp4">Watch the slideshow</a></p>
       <button class="music" type="button" aria-pressed="false" aria-label="Play music">
         <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
