@@ -287,33 +287,6 @@
       .music[aria-pressed="false"] .waves,
       .music[aria-pressed="true"] .slash { display: none; }
 
-      /* A hairline that fills as the recording plays, and is not there at
-         all otherwise. Opacity rather than display, so the footer does not
-         reflow when it comes and goes. */
-      .progress {
-        width: min(190px, 55%);
-        height: 2px;
-        margin: 0.6rem auto 0;
-        border-radius: 1px;
-        background: rgba(var(--shadow), 0.16);
-        overflow: hidden;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .progress.on { opacity: 1; }
-
-      .progress-fill {
-        display: block;
-        width: 0;
-        height: 100%;
-        background: var(--ink);
-        opacity: 0.5;
-        /* timeupdate only fires a few times a second; this carries the bar
-           between ticks so it creeps rather than steps. */
-        transition: width 0.25s linear;
-      }
-
       /* The provenance stays out of sight until the music is actually
          playing, at which point it is the only thing worth saying. Opacity
          rather than display, so the line below never jumps. */
@@ -378,7 +351,6 @@
     <footer>
       <p class="more"><a href="tony-slideshow.mp4">Life in Pictures</a><a href="obituary.html">Obituary</a></p>
       <p class="memory">In loving memory</p>
-      <div class="progress" aria-hidden="true"><span class="progress-fill"></span></div>
     </footer>
 
     <!-- preload="none" so a visitor who never asks for music never downloads
@@ -394,17 +366,15 @@
 
     <script>
       /* Background music, off until asked for. The crab is the control and
-         the line under the footer is a second one, since a moving 45px crab
-         is not a target everyone can hit. Volume is ramped by hand
-         at both ends - an abrupt cut is jarring in a quiet room, and volume is
-         not a property CSS or the animation API can tween. */
+         the speaker beside him is a second one, since a moving 45px crab is
+         not a target everyone can hit. Volume is ramped by hand at both ends
+         - an abrupt cut is jarring in a quiet room, and volume is not a
+         property CSS or the animation API can tween. */
       (function () {
         var btn = document.querySelector('.music');
         var credit = document.querySelector('.music-credit');
         var audio = document.querySelector('.music-track');
         var crab = document.querySelector('.crab');
-        var bar = document.querySelector('.progress');
-        var fill = document.querySelector('.progress-fill');
         if (!btn || !audio) return;
 
         var LEVEL = 0.5;   /* a bed under the page, not a performance */
@@ -432,17 +402,7 @@
           }
           btn.setAttribute('aria-label', playing ? 'Pause music' : 'Play music');
           if (credit) credit.classList.toggle('on', playing);
-          if (bar) bar.classList.toggle('on', playing);
         }
-
-        /* Duration is NaN until metadata arrives, and preload is none, so it
-           is genuinely absent until the first play. */
-        audio.addEventListener('timeupdate', function () {
-          if (!fill || !playing) return;
-          var d = audio.duration;
-          if (!d || d !== d) return;
-          fill.style.width = Math.min(100, (audio.currentTime / d) * 100) + '%';
-        });
 
         function toggle() {
           playing = !playing;
@@ -474,7 +434,6 @@
           render();
           if (rewind) {
             try { audio.currentTime = 0; } catch (e) {}
-            if (fill) fill.style.width = '0';   /* masked by the bar fading out */
           }
         }
         audio.addEventListener('ended', function () { stopped(true); });
