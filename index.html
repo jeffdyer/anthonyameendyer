@@ -193,18 +193,22 @@
         opacity: 0.85;
       }
 
-      /* The two places to go from here. Both are served from this domain,
-         so each is only a link - and the slideshow opens in the same tab on
-         purpose, because leaving the page stops the music rather than laying
-         the recording under the slideshow's own sound. Sized to match the
-         other sites in the family, quiet enough that the photograph above is
-         still the page. */
-      .more {
-        margin: 0.9rem 0 0;
-      }
+      /* The two places to go from here, on one line. Both are served from
+         this domain, so each is only a link - and the slideshow opens in the
+         same tab on purpose, because leaving the page stops the music rather
+         than laying the recording under the slideshow's own sound. Sized to
+         match the other sites in the family, quiet enough that the
+         photograph above is still the page.
 
-      .more + .more {
-        margin-top: 0.35rem;
+         Flex rather than inline text so the gap is set once and the pair
+         drops to two lines, still centred, if the type is scaled up on a
+         narrow phone. */
+      .more {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.35rem 1.1rem;
+        margin: 0.9rem 0 0;
       }
 
       .more a {
@@ -332,9 +336,7 @@
 
     <footer>
       <p class="memory">In loving memory</p>
-      <p class="more"><a href="obituary.html">Obituary</a></p>
-      <p class="more"><a href="tony-story.mp4">Tony&rsquo;s Story</a></p>
-      <p class="more"><a href="tony-slideshow.mp4">Life</a></p>
+      <p class="more"><a href="obituary.html">Obituary</a><a href="tony-slideshow.mp4">Life in Pictures</a></p>
       <button class="music" type="button" aria-pressed="false" aria-label="Play music">
         <svg class="music-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path class="spk" d="M1.8 6h2.7L8 3.1v9.8L4.5 10H1.8z"/>
